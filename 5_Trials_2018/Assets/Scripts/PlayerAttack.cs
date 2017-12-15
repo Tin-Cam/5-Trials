@@ -58,11 +58,11 @@ public class PlayerAttack : MonoBehaviour
 
         sword.transform.position = calculateStartPosition();
 
-        //for(int i = 0; i <= arcLength; i++)
-        //{
-        //    sword.transform.position = calculateSwordPosition(i);
-        //    yield return new WaitForEndOfFrame();
-        //}
+        for(int i = 0; i <= arcLength; i++)
+        {
+            sword.transform.position = calculateSwordPosition(i);
+            yield return new WaitForEndOfFrame();
+        }
         
         yield return new WaitForSeconds(holdTime);
         sword.SetActive(false);
@@ -106,12 +106,12 @@ public class PlayerAttack : MonoBehaviour
         //Calculate the sword's rotation
         sword.transform.rotation = Quaternion.Euler(0, 0, angle + (-90 * playerMove.direction));
 
+        float angleR = (angle * Mathf.PI) / 180; //Converts the angle into radians
         Vector3 result;
-
         result = new Vector3(
-            (transform.position.x + radius) * Mathf.Cos(angle),    //x
-            (transform.position.y + radius) * Mathf.Sin(angle),    //y
-            0f);                                                         //z
+            (transform.position.x + radius) * Mathf.Cos(angleR + (-90 * playerMove.direction)),    //x
+            (transform.position.y + radius) * Mathf.Sin(angleR + (-90 * playerMove.direction)),    //y
+            0f);                                                   //z
 
         return result;
     }
