@@ -12,10 +12,10 @@ public class PlayerMove : MonoBehaviour {
 
     public byte direction;
     //Direction uses an int value to determine which direction the player is facing
-    // 0:   Right
-    // 1:   Down
-    // 2:   Left
-    // 3:   Up
+    // 0:   Up
+    // 1:   Right
+    // 2:   Down
+    // 3:   Left
 
 	void Start () {
         rig = GetComponent<Rigidbody2D>();
@@ -29,7 +29,8 @@ public class PlayerMove : MonoBehaviour {
         }
         MoveX();
         MoveY();
-	}
+        transform.rotation = Quaternion.Euler(0, 0, -90 * direction);
+    }
 
     //Handles horizontal movement
     private void MoveX()
@@ -38,13 +39,13 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetAxisRaw("Horizontal") > 0f)
         {
             rig.velocity = new Vector3(moveSpeed, rig.velocity.y, 0f);
-            SetDirection(0);
+            SetDirection(1);
         }
         //Handles moving left
         else if (Input.GetAxisRaw("Horizontal") < 0f)
         {
             rig.velocity = new Vector3(-moveSpeed, rig.velocity.y, 0f);
-            SetDirection(2);
+            SetDirection(3);
         }
         else
         {
@@ -59,13 +60,13 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetAxisRaw("Vertical") > 0f)
         {
             rig.velocity = new Vector3(rig.velocity.x, moveSpeed, 0f);
-            SetDirection(3);
+            SetDirection(0);
         }
         //Handles moving down
         else if (Input.GetAxisRaw("Vertical") < 0f)
         {
             rig.velocity = new Vector3(rig.velocity.x, -moveSpeed, 0f);
-            SetDirection(1);
+            SetDirection(2);
         }
         else
         {
@@ -74,10 +75,10 @@ public class PlayerMove : MonoBehaviour {
     }
 
     //Direction uses an int value to determine which direction the player is facing
-    // 0:   Right
-    // 1:   Down
-    // 2:   Left
-    // 3:   Up
+    // 0:   Up
+    // 1:   Right
+    // 2:   Down
+    // 3:   Left
     private void SetDirection(byte direction)
     {
         this.direction = direction;
