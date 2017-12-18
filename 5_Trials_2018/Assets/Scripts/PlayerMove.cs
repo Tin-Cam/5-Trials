@@ -13,11 +13,11 @@ public class PlayerMove : MonoBehaviour {
     public byte direction;
     //Direction uses an int value to determine which direction the player is facing
     // 0:   Up
-    // 1:   Right
+    // 1:   Left
     // 2:   Down
-    // 3:   Left
+    // 3:   Right
 
-	void Start () {
+    void Start () {
         rig = GetComponent<Rigidbody2D>();
 	}
 	
@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour {
         }
         MoveX();
         MoveY();
-        transform.rotation = Quaternion.Euler(0, 0, -90 * direction);
+        transform.rotation = Quaternion.Euler(0, 0, getDirectionAngle());
     }
 
     //Handles horizontal movement
@@ -39,13 +39,13 @@ public class PlayerMove : MonoBehaviour {
         if (Input.GetAxisRaw("Horizontal") > 0f)
         {
             rig.velocity = new Vector3(moveSpeed, rig.velocity.y, 0f);
-            SetDirection(1);
+            SetDirection(3);
         }
         //Handles moving left
         else if (Input.GetAxisRaw("Horizontal") < 0f)
         {
             rig.velocity = new Vector3(-moveSpeed, rig.velocity.y, 0f);
-            SetDirection(3);
+            SetDirection(1);
         }
         else
         {
@@ -76,11 +76,21 @@ public class PlayerMove : MonoBehaviour {
 
     //Direction uses an int value to determine which direction the player is facing
     // 0:   Up
-    // 1:   Right
+    // 1:   Left
     // 2:   Down
-    // 3:   Left
+    // 3:   Right
     private void SetDirection(byte direction)
     {
         this.direction = direction;
+    }
+
+    //Returns the player's direction as an angle
+    //Up:     0
+    //Left:  90
+    //Down:   180
+    //Right:   270
+    public float getDirectionAngle()
+    {
+        return 90 * direction;
     }
 }

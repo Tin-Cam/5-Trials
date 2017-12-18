@@ -4,30 +4,29 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour {
 
-    public float speed;
-    public float maxLength;
-    public float minLength;
-    public Vector3 point = new Vector3(0, 0, 0);
+    public float healthUnitRatio; //Determines the scale of a single unit of health on the game screen
+    private float length;
 
-    float length;
-	// Use this for initialization
 	void Start () {
-		
+        //TODO: Add function that stops healthbar reseting on harder difficulties
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        length = length + speed;
 
-        if (length >= maxLength || length <= minLength)
-            speed = -speed;
+    public void addHealth(float value)
+    {
+        length += value * healthUnitRatio;
+        updateBar();
+    }
 
-        //transform.localScale = new Vector3(length, transform.localScale.y, transform.localScale.z);
+    public void setHealth(float value)
+    {
+        length = value * healthUnitRatio;
+        updateBar();
+    }
 
-        //Vector3 point = new Vector3(0, 0, 0);
-        Vector3 axis = new Vector3(0, 0, 1);
-        
-
-        transform.RotateAround(point, axis, 1);
-	}
+    private void updateBar()
+    {
+        if (length < 0)
+            length = 0;
+        transform.localScale = new Vector3(length, transform.localScale.y, transform.localScale.z);
+    }
 }

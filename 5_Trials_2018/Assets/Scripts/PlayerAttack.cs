@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
         sword.SetActive(false);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         //Vector3 point = transform.position;
         //Vector3 axis = new Vector3(0, 0, 1);
@@ -58,11 +58,11 @@ public class PlayerAttack : MonoBehaviour
 
         sword.transform.position = calculateStartPosition();
 
-        for(int i = 0; i <= arcLength; i++)
-        {
-            sword.transform.position = calculateSwordPosition(i);
-            yield return new WaitForEndOfFrame();
-        }
+        //for(int i = 0; i <= arcLength; i++)
+        //{
+        //    sword.transform.position = calculateSwordPosition(i);
+        //    yield return new WaitForEndOfFrame();
+        //}
         
         yield return new WaitForSeconds(holdTime);
         sword.SetActive(false);
@@ -74,7 +74,7 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 calculateStartPosition()
     {
         //Sets the rotation of the sword using the player's direction
-        sword.transform.rotation = Quaternion.Euler(0, 0, -90 * playerMove.direction);
+        sword.transform.rotation = Quaternion.Euler(0, 0, playerMove.getDirectionAngle());
 
 
         switch (playerMove.direction)
@@ -85,15 +85,15 @@ public class PlayerAttack : MonoBehaviour
 
             //Attacking right
             case 1:
-                return new Vector3(transform.position.x + radius, transform.position.y, 0f);
+                return new Vector3(transform.position.x - radius, transform.position.y, 0f);
 
             //Attacking down
             case 2:
                 return new Vector3(transform.position.x, transform.position.y - radius, 0f);
 
             //Attacking left
-            case 3:
-                return new Vector3(transform.position.x - radius, transform.position.y, 0f);
+            case 3:           
+                return new Vector3(transform.position.x + radius, transform.position.y, 0f);
 
             default:
                 return new Vector3(transform.position.x, transform.position.y, 0f);
@@ -104,15 +104,19 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 calculateSwordPosition(float angle)
     {
         //Calculate the sword's rotation
-        sword.transform.rotation = Quaternion.Euler(0, 0, angle + (-90 * playerMove.direction));
+        //sword.transform.rotation = Quaternion.Euler(0, 0, -angle + playerMove.getDirectionAngle());
 
         float angleR = (angle * Mathf.PI) / 180; //Converts the angle into radians
+
+        //Calculates the arc movement of the sword
         Vector3 result;
         result = new Vector3(
-            (transform.position.x + radius) * Mathf.Cos(angleR + (-90 * playerMove.direction)),    //x
-            (transform.position.y + radius) * Mathf.Sin(angleR + (-90 * playerMove.direction)),    //y
-            0f);                                                   //z
+            radius * Mathf.Cos(playerMove.getDirectionAngle()),    //x
+            radius * Mathf.Sin(playerMove.getDirectionAngle()),    //y
+            0f);                                               //z
+        result += transform.position;
 
         return result;
     }
+
 }
