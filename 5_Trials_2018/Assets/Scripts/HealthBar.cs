@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour {
 
 	void Start () {
         //TODO: Add function that stops healthbar reseting on harder difficulties
-	}
+    }
 
     public void addHealth(float value)
     {
