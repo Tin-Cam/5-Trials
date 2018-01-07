@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour {
     public float moveSpeed;
     public bool canMove;
 
-    Animator animator;
+    public Animator animator;
 
     public byte direction;
     //Direction uses an int value to determine which direction the player is facing
@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour {
         }
         MoveX();
         MoveY();
-        transform.rotation = Quaternion.Euler(0, 0, getDirectionAngle());
+        //transform.rotation = Quaternion.Euler(0, 0, getDirectionAngle());
     }
 
     //Handles horizontal movement
@@ -40,12 +40,14 @@ public class PlayerMove : MonoBehaviour {
         {
             rig.velocity = new Vector3(moveSpeed, rig.velocity.y, 0f);
             SetDirection(3);
+            animator.SetTrigger("Right");
         }
         //Handles moving left
         else if (Input.GetAxisRaw("Horizontal") < 0f)
         {
             rig.velocity = new Vector3(-moveSpeed, rig.velocity.y, 0f);
             SetDirection(1);
+            animator.SetTrigger("Left");
         }
         else
         {
@@ -61,12 +63,14 @@ public class PlayerMove : MonoBehaviour {
         {
             rig.velocity = new Vector3(rig.velocity.x, moveSpeed, 0f);
             SetDirection(0);
+            animator.SetTrigger("Back");
         }
         //Handles moving down
         else if (Input.GetAxisRaw("Vertical") < 0f)
         {
             rig.velocity = new Vector3(rig.velocity.x, -moveSpeed, 0f);
             SetDirection(2);
+            animator.SetTrigger("Forward");
         }
         else
         {
